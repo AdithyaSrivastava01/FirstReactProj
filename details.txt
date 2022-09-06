@@ -1,0 +1,211 @@
+React JS used for SPA(single page application) where client side rendering is possible.
+The index.html is sent to the browser and all the rendering and the 
+redirecting is done in the browser by the React
+
+To install a React app:
+
+npx create-react-app app_name
+
+where npx stands for node package execute which is a part of npm(node package manager)
+
+To create something we use npx like a json-server or a react-app.But to install something we use npm.
+
+To open VScode in powershell in particular directory "code ."
+
+
+
+To start a local development server and host the website we used
+npm run start
+then use the localhost:3000 to go reach the index.html
+
+
+At times while cloning from Github we dont have the node_modules as they take that much space
+hence we can run a command npm install to install node packages
+
+"npm install"
+
+React components
+same as HTMl components but done by JSX(JavaScript XML).
+
+The components are function which return a JSX file and then they are
+exported by export default component_name
+
+this then imported in the index.js in which 
+the component is called in the ReactDOM and rendered in the browser
+
+In JSX the class is called className as class is a 
+reserved keyword in JS
+
+
+========================================================================================================================
+Dynamic Template values
+
+const title="Welcome to my React Page";//dynamic value
+  return (
+    <div className="App">
+   <div className="content">
+     <h1>Components</h1>
+     <h2>{title}</h2> 
+     {/* In react the dynamic values of the template
+     can be taken from the JS file which will be declared before return statement
+     these values are converted to strings and displayed 
+     on the ReactDOM  */}
+    {/* Note:objects and Boolean cant be passed as Dynamic values throws
+    a compilation error
+    With Arrays it doesnt display it like an array but instead it converts it to a string */}
+    <h3>{[1,2,3,4]}</h3>
+    {/* converts the array into string and displays it as 1234 */}
+   </div>
+    </div>
+  );
+
+====================================================================================================
+Multiple Components
+the root component of the React App is App.js and all other components 
+like the navbar and the content are derived from the App.js
+for that we need to create new JS files in the src folder and import it 
+into the App.js and nest it within the code
+======================================================================================================
+Styles
+All the styles can go to the index.css file the App.css file is Not
+actually required unless we usin' a css module 
+
+The regular Styling can be coded in the index.css file
+we can also style within the JS file of the component 
+in form of {{js_objects}} the JS objects can be border:something
+backColor:something etc.
+But preferred to style in index.css as regular HTML files.
+========================================================================================================
+Click Events
+
+const Home = () => {
+    const checkclick=(e)=>{
+console.log("Hey",e);
+    };
+    const checkclickagain=(name,e)=>{
+console.log("Hey"+name,e.target);
+    };
+    return ( 
+
+        <div className="home">
+            <h2>My Home Page</h2>
+            <button onClick={checkclick}>Click ME</button> 
+            /*we dont send the function call in the {} braces(template) as it will then already call the function 
+            before clicking the button hence we just send the refrence of the function. The event Click is attached to the 
+            function refrence
+            hence it can be used in the function declaration as e same as DOM*/
+            <button onClick={(e)=>
+                {checkclickagain("Adithya",e)}
+            }>Click ME Again</button>
+           /* In this case the pseudo function has the event attached to it and e must go to the 
+            pseudo function first then be passed to the function call.The function call checkclickagain
+            is only invoked when there is click event taken place.
+            The pseudo function invokes the checkclickagain function.*/
+        </div>
+     );
+}
+====================================================================================================================================
+
+States
+State of the component is the data being used by the particular component at that point of time
+it could array,number or string etc.
+//Code
+
+ import { useState } from "react";
+//we import the usestate react hook to observe the changes of the state
+const Home = () => {
+    const [name,setName]=useState("mario");//here an array is used to derefrence it
+    //name is the variable which is being assigned as mario and the setName function acts 
+    as a State hook so whenever the setName function is called the name of the per changes but only once
+    hence when we click the the button the <p> tag cintent changed as the button invokes the function of setName
+const checkclick=()=>{
+setName("luigi");
+    };
+    
+    return ( 
+
+        <div className="home">
+            <h2>My Home Page</h2>
+            <p>{name}</p>
+            <button onClick={checkclick}>Click ME</button>
+            
+        </div>
+     );
+}
+==================================================================================================================================
+Listing Outputs
+One of the main differences between forEach() and map() methods is their ability to chain other methods. map() is chainable 
+but forEach isn't. This means that one could use reduce(), sort(), 
+and other methods after map() but that's not possible with foreach() because it returns undefined.
+Also forEach doest work with JSX so use map() faster and easier.
+====================================================================================================================================
+
+<BlogList  blog={blogs.filter((blog)=>
+blog.author==="Arthur"
+        )} title="Arthur's Blogs"/>
+
+this piece of code will render Bloglist and only display the book written by Arthur
+=======================================================================================================================================
+
+useEffect hook is kinda hook that is used when we need to run a code for every render
+of the ReactDOM.
+
+const [name,setName]=useState("mario");
+    /*we use state hooks as the number of blogs are not constant and hence to keep a 
+    track of each blog we use state hook.So whenever a new blog is added or deleted the 
+    React rerenders the pages with the new state(in the sense new set of variable values) */
+useEffect(()=>{
+    console.log("use effect ran");//this function runs in every render of the ReactDOM 
+    //as every state change initiates a new render the useEffect funstion is fired.
+    //we use an empty dependencies or a state to monitor the fire of the useEffect function 
+    //the Empty dependencies [] takes in as the second argument in the useEffect which only fires the function in the initial 
+    //render if we take a state and pass it in the array it will only fire two times once in the initial render and second 
+    //when the state of the variable passed changes.
+},[name]);//doesnt return anything hence no need of the assignment to a const
+<button onClick={()=>{
+    setName("luigi")
+}}>Change name</button>
+<p>{name}</p>
+        </div>
+     );
+} 
+
+Here the name changes to luigi as the setName function is called but when we press the button again it 
+doesnt change the name as it is not changing the state again.
+======================================================================================================================================
+JSON server
+To create a JSON server we write 
+npx json-server --watch data/db.json --port 8000
+
+this creates a JSON db in the port 8000 as by default the react port 3000 --watch is used to keep a watch on the changes of the db
+and json-server is part of the npx module.
+
+========================================================================================================================================
+React Router
+
+first install the react router package as it is not part of the core library
+to install the react router version 5 we the command
+npm install react-router-dom@5
+===========================================================================================================================================
+React Query 
+React Query can be used for caching the data in the browser.Hence,whenever we render the Query in the 
+Navbar it doesn't reload because the data is cached for 5mn where we click the Home component the 
+refetch of the data takes place and then the HOME id rendered.
+
+Caching is also a given adv but also the fetch abort is not required as the data is fetched and mounted on the Query component.
+
+To install we need to write the command
+
+npm i react-query
+
+To use the react-query lib we to first create a query client using QueryClient() function qhich creates
+a query client obj this is then passed to the JSX element <QueryClientProvider client=query_obj > and passed as a parameter
+in the client attribute.
+Withtin the component that is using the react-query hook useQuery we first give access to the queryclient_obj
+using useQueryClient() and then the useQuery hook is used,which takes in a randomn key of our choice and an
+async function refrence in which the function performs the fetch request.
+
+
+The useQuery hook is destructured by the data:blogs (here data has an alias as blogs) and status.
+the data is the objects and the status if found==="success" or the status could be loading or error.
+
